@@ -1,0 +1,20 @@
+version: "3.5"
+
+services:
+  db:
+    image: mongo
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME='kind'
+      - ME_CONFIG_MONGODB_ADMINPASSWORD='kind'
+    volumes:
+      - ./data:/data/db
+    kc:
+      build: .
+      ports:
+        - 9876:9876
+      links:
+        - db
+      depends_on:
+        - db
+      environment:
+        - DB_URL=mongodb://kind:kind@db
